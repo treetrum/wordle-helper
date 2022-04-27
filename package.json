@@ -1,0 +1,19 @@
+{
+    "name": "help",
+    "version": "1.0.0",
+    "description": "",
+    "main": "help.js",
+    "scripts": {
+        "start": "ts-node help.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cli-progress": "^3.10.0",
+        "node-fetch": "^3.2.1"
+    },
+    "devDependencies": {
+        "@types/cli-progress": "^3.9.2"
+    }
+}
