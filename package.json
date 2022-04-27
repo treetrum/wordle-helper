@@ -5,7 +5,8 @@
     "main": "dist/index.js",
     "scripts": {
         "prebuild": "rm -rf dist && rm -rf bin",
-        "build": "parcel build && pkg dist/index.js -t node12-macos-x64 -o bin/wordle-helper",
+        "build-x64": "parcel build && pkg dist/index.js -t node12-macos-x64 -o bin/wordle-helper",
+        "build-arm": "parcel build && pkg dist/index.js -t node16-macos-arm64 -o bin/wordle-helper",
         "prelink": "rm -rf /usr/local/bin/wordle-helper",
         "link": "ln -s $(pwd)/bin/wordle-helper /usr/local/bin/"
     },
