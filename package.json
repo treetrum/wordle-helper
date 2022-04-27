@@ -1,19 +1,26 @@
 {
     "name": "wordle-helper",
     "version": "1.0.0",
-    "main": "help.js",
+    "source": "src/index.ts",
+    "main": "dist/index.js",
     "scripts": {
-        "start": "ts-node src/help.ts"
+        "prebuild": "rm -rf dist && rm -rf bin",
+        "build": "parcel build && pkg dist/index.js -t node12-macos-x64 -o bin/wordle-helper",
+        "prelink": "rm -rf /usr/local/bin/wordle-helper",
+        "link": "ln -s $(pwd)/bin/wordle-helper /usr/local/bin/"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
         "cli-progress": "^3.10.0",
-        "node-fetch": "^3.2.1"
+        "prompts": "^2.4.2"
     },
     "devDependencies": {
-        "@types/cli-progress": "^3.9.2"
+        "@types/cli-progress": "^3.9.2",
+        "@types/prompts": "^2.0.14",
+        "parcel": "^2.5.0",
+        "pkg": "^5.6.0"
     },
     "repository": {
         "type": "git",
