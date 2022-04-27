@@ -1,5 +1,7 @@
 import prompts from "prompts";
 import { solveWithInput } from "./library";
+import storage from "node-persist";
+import * as os from "os";
 
 let POSITION_EXCLUSIONS = [[], [], [], [], []];
 let KNOWN_LETTER_POSITIONS_TEMPLATE = "@@@@@";
@@ -32,7 +34,36 @@ let AVAILABLE_LETTERS = [
     "Z",
 ];
 
+const runFromCache = async () => {
+    try {
+        await storage.init({
+            dir: os.tmpdir(),
+        });
+        const data = await storage.getItem("backup");
+        if (data) {
+            console.log("Solving with cached data:", data);
+            const {
+                KNOWN_LETTER_POSITIONS_TEMPLATE,
+                POSITION_EXCLUSIONS,
+                AVAILABLE_LETTERS,
+            } = data;
+            solveWithInput(
+                KNOWN_LETTER_POSITIONS_TEMPLATE,
+                POSITION_EXCLUSIONS,
+                AVAILABLE_LETTERS
+            );
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 const go = async () => {
+    if (process.argv[2] === "--redo") {
+        await runFromCache();
+        return;
+    }
+
     const { hasKnownPositions } = await prompts({
         type: "confirm",
         name: "hasKnownPositions",
@@ -131,6 +162,17 @@ const go = async () => {
         POSITION_EXCLUSIONS,
         AVAILABLE_LETTERS
     );
+
+    // Store for potential re-runs
+    await storage.init({
+        dir: os.tmpdir(),
+    });
+    await storage.setItem("backup", {
+        KNOWN_LETTER_POSITIONS_TEMPLATE,
+        POSITION_EXCLUSIONS,
+        AVAILABLE_LETTERS,
+    });
+    console.log("To run this with the same input, pass the flag: --redo");
 };
 
 go();
