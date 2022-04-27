@@ -1,7 +1,6 @@
 {
-    "name": "help",
+    "name": "wordle-helper",
     "version": "1.0.0",
-    "description": "",
     "main": "help.js",
     "scripts": {
         "start": "ts-node src/help.ts"
@@ -15,5 +14,14 @@
     },
     "devDependencies": {
         "@types/cli-progress": "^3.9.2"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/treetrum/wordle-helper.git"
+    },
+    "bugs": {
+        "url": "https://github.com/treetrum/wordle-helper/issues"
+    },
+    "homepage": "https://github.com/treetrum/wordle-helper#readme",
+    "description": ""
 }
