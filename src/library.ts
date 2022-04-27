@@ -47,53 +47,45 @@ export const solveWithInput = (
     const words = file
         .toString()
         .split("\n")
-        .map((w) => w.toLowerCase());
-
-    const unknownCount = KNOWN_LETTER_POSITIONS_TEMPLATE.split("").filter(
-        (letter) => letter === "@"
-    ).length;
+        .map((w) => w.toUpperCase());
 
     let startTime = Date.now();
     console.log("Generating letter combinations");
 
-    const letterCombinations = createLetterCombinations(
-        AVAILABLE_LETTERS,
-        unknownCount
-    );
-
     console.log(`Checking all combinations`);
     const progressBar = new cliProgress.SingleBar({});
-    progressBar.start(letterCombinations.length, 0);
+    progressBar.start(words.length, 0);
 
     let candidates = [];
 
-    letterCombinations.forEach((combination, index) => {
+    words.forEach((word, index) => {
         progressBar.update(index + 1);
 
-        // Generate the word from template
-        let word = KNOWN_LETTER_POSITIONS_TEMPLATE;
-        for (let index = 0; index < 5; index++) {
-            let char = combination.charAt(0);
-            combination = combination.substring(1);
-            word = word.replace("@", char);
-        }
-
         // Ensure it matches criteria
-        if (words.includes(word.toLowerCase())) {
-            let isAPossibleCandidate = true;
-            POSITION_EXCLUSIONS.forEach((exclusions, exclusionIndex) => {
-                if (exclusions.includes(word.charAt(exclusionIndex))) {
-                    isAPossibleCandidate = false;
-                }
-            });
-            KNOWN_LETTERS.forEach((inclusion) => {
-                if (!word.includes(inclusion)) {
-                    isAPossibleCandidate = false;
-                }
-            });
-            if (isAPossibleCandidate) {
-                candidates.push(word);
+        let isAPossibleCandidate = true;
+        word.split("").forEach((letter) => {
+            if (!AVAILABLE_LETTERS.includes(letter)) {
+                isAPossibleCandidate = false;
             }
+        });
+        KNOWN_LETTER_POSITIONS_TEMPLATE.split("").forEach((letter, index) => {
+            if (letter == "@") return;
+            if (word.charAt(index) !== letter) {
+                isAPossibleCandidate = false;
+            }
+        });
+        POSITION_EXCLUSIONS.forEach((exclusions, exclusionIndex) => {
+            if (exclusions.includes(word.charAt(exclusionIndex))) {
+                isAPossibleCandidate = false;
+            }
+        });
+        KNOWN_LETTERS.forEach((inclusion) => {
+            if (!word.includes(inclusion)) {
+                isAPossibleCandidate = false;
+            }
+        });
+        if (isAPossibleCandidate) {
+            candidates.push(word);
         }
     });
 

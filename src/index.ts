@@ -148,7 +148,10 @@ const go = async () => {
             message: "What letters?",
         });
         AVAILABLE_LETTERS = AVAILABLE_LETTERS.filter(
-            (l) => !(excludedLetters as string[]).includes(l)
+            (l) =>
+                !(excludedLetters as string[])
+                    .map((l) => l.toUpperCase())
+                    .includes(l)
         );
     }
 
