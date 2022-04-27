@@ -73,14 +73,14 @@ const createLetterCombinations = (
     return possibleWords;
 };
 
-const file = fs.readFileSync("./words.txt");
+const file = fs.readFileSync(__dirname + "/data/words.txt");
 const words = file
     .toString()
     .split("\n")
     .map((w) => w.toLowerCase());
 
 const unknownCount = KNOWN_LETTER_POSITIONS_TEMPLATE.split("").filter(
-    (l) => l === "@"
+    (letter) => letter === "@"
 ).length;
 
 let startTime = Date.now();

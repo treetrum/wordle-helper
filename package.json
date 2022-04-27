@@ -4,7 +4,7 @@
     "description": "",
     "main": "help.js",
     "scripts": {
-        "start": "ts-node help.ts"
+        "start": "ts-node src/help.ts"
     },
     "keywords": [],
     "author": "",
