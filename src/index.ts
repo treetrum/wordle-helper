@@ -150,8 +150,8 @@ const go = async () => {
         AVAILABLE_LETTERS = AVAILABLE_LETTERS.filter(
             (l) =>
                 !(excludedLetters as string[])
-                    .map((l) => l.toUpperCase())
-                    .includes(l)
+                    .map((el) => el.toUpperCase())
+                    .includes(l.toUpperCase())
         );
     }
 
